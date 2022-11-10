@@ -139,7 +139,7 @@ exports.config = {
     // If you are using Cucumber you need to specify the location of your step definitions.
     cucumberOpts: {
         // <string[]> (file/dir) require files before executing features
-        require: ['./features/step-definitions/steps.js'],
+        require: ['./features/step-definitions'],
         // <boolean> show full backtrace for errors
         backtrace: false,
         // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
@@ -148,6 +148,10 @@ exports.config = {
         dryRun: false,
         // <boolean> abort the run on first failure
         failFast: false,
+        // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
+        format: ['pretty'], 
+        // <boolean> disable colors in formatter output
+        colors: true,       
         // <boolean> hide step definition snippets for pending steps
         snippets: true,
         // <boolean> hide source uris
