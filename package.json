@@ -1,0 +1,31 @@
+{
+  "name": "cucumber-automatization",
+  "version": "1.0.0",
+  "description": "Taller: BDD utilizando Cucumbe",
+  "main": "index.js",
+  "scripts": {
+    "test": "node_modules/.bin/wdio wdio.conf.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/haibergalindouniandes/cucumber-automatization.git"
+  },
+  "keywords": [
+    "webdriverio",
+    "javascript",
+    "cucumber"
+  ],
+  "author": "Haiber Humberto Galindo Sanchez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/haibergalindouniandes/cucumber-automatization/issues"
+  },
+  "homepage": "https://github.com/haibergalindouniandes/cucumber-automatization#readme",
+  "devDependencies": {
+    "@wdio/cli": "^7.25.4",
+    "@wdio/cucumber-framework": "^7.25.4",
+    "@wdio/local-runner": "^7.25.4",
+    "@wdio/selenium-standalone-service": "^7.25.4",
+    "@wdio/spec-reporter": "^7.25.4"
+  }
+}
