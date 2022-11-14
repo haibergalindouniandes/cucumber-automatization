@@ -1,22 +1,62 @@
+//Imports libreries
+const faker = require("faker");
 const { Given, When, Then } = require('@wdio/cucumber-framework');
-
 const LoginPage = require('../pageobjects/login.page');
-const SecurePage = require('../pageobjects/secure.page');
+const RegisterPage = require('../pageobjects/register.page');
 
-const pages = {
-    login: LoginPage
-}
-
-Given(/^I am on the (\w+) page$/, async (page) => {
-    await pages[page].open()
+Given('I go to losestudiantes home screen', async () => {
+    await LoginPage.open();
 });
 
-When(/^I login with (\w+) and (.+)$/, async (username, password) => {
-    await LoginPage.login(username, password)
+When('I open the login screen', async () => {
+    await LoginPage.openLoginScreen();
 });
 
-Then(/^I should see a flash message saying (.*)$/, async (message) => {
-    await expect(SecurePage.flashAlert).toBeExisting();
-    await expect(SecurePage.flashAlert).toHaveTextContaining(message);
+When(/^I fill with email: (.*) and password: (.*)$/, async (email, password) => {
+    await LoginPage.setCredentials(email, password);
 });
 
+When('I try to login', async () => {
+    await LoginPage.login();
+    browser.pause(3000);
+});
+
+Then(/^I expect to see (.*)$/, error => {
+    expect(LoginPage.getErrorMessageLogin()).toHaveTextContaining(error);
+    browser.pause(3000);
+});
+
+Then('I expect to see the message {stringInDoubleQuotes}', message => {
+    expect(LoginPage.getSuccessMessageLogin()).toHaveTextContaining(message);
+});
+
+// Register
+When('I open the registration screen', async () => {
+    await RegisterPage.openRegisterScreen();
+});
+
+When(/^I fill with (.*), (.*), (.*), (.*) and (.*)$/, async (nombre, apellido, email, password, password2) => {
+    await RegisterPage.setValuesForm(nombre, apellido, email, password, password2);
+});
+
+When('I try to register', async () => {
+    await RegisterPage.register();
+});
+
+Then('I expect to see {stringInDoubleQuotes} in the register', error => {
+    expect(RegisterPage.getErrorMessageRegister()).toHaveTextContaining(error);
+});
+
+When('I fill with random values to name, lastname, email, password', async () => {
+    let password = faker.internet.password();
+    await RegisterPage.setValuesForm(faker.name.firstName(), faker.name.lastName(), faker.internet.email(), password, password);
+});
+
+Then('I expect to see successful registration message {stringInDoubleQuotes}', message => {
+    expect(RegisterPage.getSuccessMessageRegister()).toHaveTextContaining(message);
+    browser.pause(1000);
+});
+
+Then('I wait', () => {
+    browser.pause(1000);
+});

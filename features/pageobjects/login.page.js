@@ -9,34 +9,79 @@ class LoginPage extends Page {
     /**
      * define selectors using getter methods
      */
-    get inputUsername () {
-        return $('#username');
+    get inputEmail() {
+        return $('input[name="email"]');
     }
 
-    get inputPassword () {
-        return $('#password');
+    get inputPassword() {
+        return $('input[name="password"]');
     }
 
-    get btnSubmit () {
-        return $('button[type="submit"]');
+    get btnLogin() {
+        return $('button.loginButton');
     }
 
-    /**
-     * a method to encapsule automation code to interact with the page
-     * e.g. to login using username and password
-     */
-    async login (username, password) {
-        await this.inputUsername.setValue(username);
+    get btnClose() {
+        return $('button=Cerrar');
+    }
+
+    get btnSubmitLogin() {
+        return $('button=Ingresar');
+    }
+
+    get modaleNoticeAlert() {
+        return $('.notice.alert.alert-danger');
+    }
+
+    get btnUniversityChat() {
+        return $('(//button[@class="btn btn-success"])[1]');
+    }
+
+    async setCredentials(email, password) {
+        await this.inputEmail.setValue(email);
         await this.inputPassword.setValue(password);
-        await this.btnSubmit.click();
+        browser.saveScreenshot(`./results/screenshots/${this.getCurrentTimestamp}.png`);
+        await browser.pause(2000);
     }
 
-    /**
-     * overwrite specific options to adapt it to page object
-     */
-    open () {
-        return super.open('login');
+    async login() {
+        await this.btnSubmitLogin.click();
+        browser.saveScreenshot(`./results/screenshots/${this.getCurrentTimestamp}.png`);
+        await browser.pause(2000);
     }
+
+    async openLoginScreen() {
+        await this.btnLogin.waitForExist(5000);
+        await this.btnLogin.waitForDisplayed(5000);
+        await this.btnLogin.click();
+        browser.saveScreenshot(`./results/screenshots/${this.getCurrentTimestamp}.png`);
+        await browser.pause(2000);
+    }
+
+    async getErrorMessageLogin() {
+        await this.modaleNoticeAlert.waitForDisplayed(5000);
+        browser.saveScreenshot(`./results/screenshots/${this.getCurrentTimestamp}.png`);
+        await browser.pause(2000);
+        return this.modaleNoticeAlert.getText();
+    }
+
+    async getSuccessMessageLogin() {
+        await this.btnUniversityChat.waitForExist(5000);
+        await this.btnUniversityChat.waitForDisplayed(5000);
+        browser.saveScreenshot(`./results/screenshots/${this.getCurrentTimestamp}.png`);
+        await browser.pause(2000);
+        return this.btnUniversityChat.getText();
+    }
+
+    async open() {
+        await super.open('uniandes');
+        browser.saveScreenshot(`./results/screenshots/${this.getCurrentTimestamp}.png`);
+        await browser.pause(2000);
+    }
+
+    get getCurrentTimestamp() {
+        return Math.floor(Date.now() / 1000);
+    };
 }
 
 module.exports = new LoginPage();
